@@ -26,12 +26,13 @@ public class SetUpEmsEmployeeDB {
         // TODO code application logic here
         SetUpEmsEmployeeDB myEmsEmployeeDB = new SetUpEmsEmployeeDB();
 
-//myEmsEmployeeDB.dropEmsEmployeeTable();
-        myEmsEmployeeDB.createLibraryUserTable();
-        myEmsEmployeeDB.createBookTable();
-        myEmsEmployeeDB.createBorrowBookTable();
-        myEmsEmployeeDB.addBook();
-        myEmsEmployeeDB.addUser();
+//        myEmsEmployeeDB.dropEmsEmployeeTable();
+//        myEmsEmployeeDB.createLibraryUserTable();
+//        myEmsEmployeeDB.createBookTable();
+//        myEmsEmployeeDB.createBorrowBookTable();
+//        myEmsEmployeeDB.addBook();
+//        myEmsEmployeeDB.addUser();
+        myEmsEmployeeDB.addBorrow();
     }
     
     public void addBook() {        
@@ -39,13 +40,23 @@ public class SetUpEmsEmployeeDB {
         Book book2 = new Book("0002", "Sherlock Holmes", "Sir Athur Conan Doyle", "This is a new book", 5, "Fiction", true);
         Book book3 = new Book("0003", "Moby-Dick", "Herman Melville.", "This is a new book", 2, "Novel", true);
         Book book4 = new Book("0004", "It", "Stephen King", "This is a new book", 3, "Horror", true);
-        Book book5 = new Book("0005", "The Notebook", "Nicholas Sparks", "This is a new book", 5, "Romantic", true);
+        Book book5 = new Book("0005", "Book 5", "Nicholas Sparks", "This is a new book", 5, "Romantic", true);
+        Book book6 = new Book("0006", "Book 6", "Uncle Bob", "This is a new book", 5, "Programming", true);
+        Book book7 = new Book("0007", "Book 7", "Sir Athur Conan Doyle", "This is a new book", 5, "Fiction", true);
+        Book book8 = new Book("0008", "Book 8", "Herman Melville.", "This is a new book", 2, "Novel", true);
+        Book book9 = new Book("0009", "Book 9", "Stephen King", "This is a new book", 3, "Horror", true);
+        Book book10 = new Book("0010", "Book 10", "Nicholas Sparks", "This is a new book", 5, "Romantic", true);
         ArrayList<Book> list = new ArrayList<>();
         list.add(book1);
         list.add(book2);
         list.add(book3);
         list.add(book4);
         list.add(book5);
+        list.add(book6);
+        list.add(book7);
+        list.add(book8);
+        list.add(book9);
+        list.add(book10);
         addBookRecords(list);
     }
     
@@ -58,11 +69,27 @@ public class SetUpEmsEmployeeDB {
                 "ronaldo@gmail.com", "123456", "123 Melbourne", "LIBRARIAN", true, password);
         User user3 = new User("0003", "Iron Man", hashPassword,
                 "tony@gmail.com", "123456", "123 Melbourne", "STUDENT", true, password);
+        User user4 = new User("0004", "Batman", hashPassword,
+                "student1@gmail.com", "123456", "123 Melbourne", "STUDENT", true, password);
+        User user5 = new User("0005", "Superman", hashPassword,
+                "student2@gmail.com", "123456", "123 Melbourne", "STUDENT", true, password);
+        User user6 = new User("0006", "Wonder woman", hashPassword,
+                "student3@gmail.com", "123456", "123 Melbourne", "STUDENT", true, password);
         ArrayList<User> list = new ArrayList<>();
         list.add(user1);
         list.add(user2);
         list.add(user3);
+        list.add(user4);
+        list.add(user5);
+        list.add(user6);
         addUserRecords(list);
+    }
+    
+    public void addBorrow() { 
+       BorrowedBook borrow1 = new BorrowedBook("0001", "0004", false, DateUtil.convertDate("05/06/2019"), null);
+       ArrayList<BorrowedBook> list = new ArrayList<>();
+       list.add(borrow1);
+       addBorrowed(list);
     }
     
     public static Connection getConnection() throws SQLException, IOException {
@@ -242,6 +269,52 @@ public class SetUpEmsEmployeeDB {
                 pStmnt.setInt(5, book.getQuantity());
                 pStmnt.setString(6, book.getCategory());
                 pStmnt.setBoolean(7, book.isActive());
+                
+                int rowCount = pStmnt.executeUpdate();
+                if (rowCount == 0) {
+                    throw new SQLException("Cannot insert records!");
+                }
+            }
+        } catch (SQLException ex) {
+            while (ex != null) {
+                ex.printStackTrace();
+                ex = ex.getNextException();
+            }
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        } finally {
+            if (pStmnt != null) {
+                try {
+                    pStmnt.close();
+                } catch (SQLException e) {
+                }
+            }
+            if (cnnct != null) {
+                try {
+                    cnnct.close();
+                } catch (SQLException sqlEx) {
+                }
+            }
+        }
+    }
+    
+    
+    public void addBorrowed(ArrayList<BorrowedBook> books) {
+        Connection cnnct = null;
+        PreparedStatement pStmnt = null;
+        try {
+            cnnct = getConnection();
+            String preQueryStatement
+                    = "INSERT INTO LB_BORROWED_BOOK (BOOK_ID, USER_ID, IS_RETURN, BORROWED_DATE, RETURNED_DATE ) VALUES (?, ?, ?, ?, ?)";
+            pStmnt = cnnct.prepareStatement(preQueryStatement);
+            
+            for (BorrowedBook book : books) {
+                pStmnt.setString(1, book.getBookID());
+                pStmnt.setString(2, book.getUserID());
+                pStmnt.setBoolean(3, book.isIsReturn());
+                pStmnt.setDate(4, book.getBorrowedDate());
+                pStmnt.setDate(5, book.getReturnDate());
+               
                 
                 int rowCount = pStmnt.executeUpdate();
                 if (rowCount == 0) {

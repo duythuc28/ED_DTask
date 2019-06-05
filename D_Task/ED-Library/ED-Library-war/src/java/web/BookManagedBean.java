@@ -12,8 +12,10 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import javax.ejb.EJB;
 import javax.enterprise.context.Conversation;
+import javax.faces.context.FacesContext;
 import javax.faces.event.AjaxBehaviorEvent;
 import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
 import session.BookManagementFacadeRemote;
 /**
  *
@@ -26,6 +28,7 @@ public class BookManagedBean implements Serializable {
     @EJB
     private BookManagementFacadeRemote bookManagementFacade;
 
+    private String email;
     private String bookId;
     private String name;
     private String author;
@@ -48,17 +51,28 @@ public class BookManagedBean implements Serializable {
      */
     public BookManagedBean() {
         this.searchList = new ArrayList<>();
+//        if (this.name == null && this.category == null) {
+//            this.searchList.addAll(this.findBookByNameAndCategory());
+//        }
     }
 
     public ArrayList<LibBookDTO> getSearchList() {
+
         return this.searchList;
     }
 
     public void setSearchList(ArrayList<LibBookDTO> searchList) {
         this.searchList = searchList;
     }
-    
 
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+   
     
     public String getBookId() {
         return bookId;
@@ -137,31 +151,55 @@ public class BookManagedBean implements Serializable {
         return bookManagementFacade.getAllBooks();
     }
     
+    public String getUserName() { 
+        FacesContext fc = FacesContext.getCurrentInstance();
+        HttpServletRequest request = (HttpServletRequest) fc.getExternalContext().getRequest();
+        String username = request.getRemoteUser();
+        return username;
+    }
+    
 
-//    
-    public void searchBooks() {
-
+    public void searchBooksAdmin() {
         System.out.println("Name " + this.name);
-         System.out.println("Cate " + this.category);
+        System.out.println("Cate " + this.category);
         searchList.clear();
-//        searchList = findBookByNameAndCategory();
-        System.out.println("List " + this.findBookByNameAndCategory().size());
-        for (LibBookDTO book: findBookByNameAndCategory()) {
+        for (LibBookDTO book: findAllBookByNameAndCategory(true)) {
             searchList.add(book);
         }
+    }
+    
+    public void searchBooksNormal() {
+        searchList.clear();
+        for (LibBookDTO book: findAllBookByNameAndCategory(false)) {
+            searchList.add(book);
+        }
+    }
+    
+    public String borowBook() { 
+        this.email = getUserName();
+        System.out.println("email "  + email);
+        boolean result = bookManagementFacade.reserveBook(this.bookId, email);
+        if (!result) {
+            return "borrowFailure.xhtml";
+        }
+        return "borrowSuccess.xhtml";
     }
     
      public void listener(AjaxBehaviorEvent event) {
         
     }
 
-    
-    private ArrayList<LibBookDTO> findBookByNameAndCategory() {
+    // This method is to help admin find and filter books 
+    private ArrayList<LibBookDTO> findAllBookByNameAndCategory(boolean isAdmin) {
         if (this.name == null) { 
             this.name = "";
         }
         if (this.category == null) { 
             this.category = "ALL";
+        }
+        if (!isAdmin) { 
+            System.out.println("Get Active books ");
+            return bookManagementFacade.getActiveBooks(this.name, this.category);
         }
         return bookManagementFacade.getBooks(this.name, this.category);
     }

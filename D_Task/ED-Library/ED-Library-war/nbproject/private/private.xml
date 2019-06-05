@@ -3,12 +3,12 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+            <file>file:/Users/mc976/NetBeansProjects/D_Task/ED-Library/ED-Library-war/web/index.html</file>
             <file>file:/Users/mc976/NetBeansProjects/D_Task/ED-Library/ED-Library-war/src/java/web/BookManagedBean.java</file>
-            <file>file:/Users/mc976/NetBeansProjects/D_Task/ED-Library/ED-Library-war/web/admin/addBookFailure.xhtml</file>
-            <file>file:/Users/mc976/NetBeansProjects/D_Task/ED-Library/ED-Library-war/web/admin/removeBook.xhtml</file>
-            <file>file:/Users/mc976/NetBeansProjects/D_Task/ED-Library/ED-Library-war/web/admin/removeBookFailure.xhtml</file>
-            <file>file:/Users/mc976/NetBeansProjects/D_Task/ED-Library/ED-Library-war/web/admin/removeBookSuccess.xhtml</file>
-            <file>file:/Users/mc976/NetBeansProjects/D_Task/ED-Library/ED-Library-war/web/admin/addBookSuccess.xhtml</file>
+            <file>file:/Users/mc976/NetBeansProjects/D_Task/ED-Library/ED-Library-war/web/student/displayBooks.xhtml</file>
+            <file>file:/Users/mc976/NetBeansProjects/D_Task/ED-Library/ED-Library-war/web/student/borrowSuccess.xhtml</file>
+            <file>file:/Users/mc976/NetBeansProjects/D_Task/ED-Library/ED-Library-war/web/student/borrowFailure.xhtml</file>
+            <file>file:/Users/mc976/NetBeansProjects/D_Task/ED-Library/ED-Library-war/web/mainmenu.xhtml</file>
         </group>
     </open-files>
 </project-private>

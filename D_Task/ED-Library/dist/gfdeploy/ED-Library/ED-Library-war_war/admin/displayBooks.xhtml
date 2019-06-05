@@ -10,8 +10,12 @@
     <h:body>
         <h:form>
 
+            <h2>
+                Swinburne Book Management
+            </h2>
+
             <h3>
-                Available book list
+                Enter name of the book that you want to search
             </h3>
 
             <table>
@@ -21,7 +25,7 @@
                             <h:inputText title="bookName" id="name"
                                          value="#{bookManagedBean.name}">
                                 <f:passThroughAttribute name="placeHolder" value="Search..."> </f:passThroughAttribute>
-                                
+                                <!--<f:ajax event="" listener="#{bookManagedBean.listener}" execute="@this" render="search-table" />-->
                             </h:inputText>
                         </td>
                         <td>
@@ -37,7 +41,7 @@
                         </td>
                         <td>
                             <h:commandButton id="submit" value="Submit" 
-                             action="#{bookManagedBean.searchBooks}">
+                                             action="#{bookManagedBean.searchBooksAdmin}">
                                 <f:ajax listener="#{bookManagedBean.listener}" execute="@form" render="search-table" />
                             </h:commandButton>
                         </td>
@@ -46,6 +50,12 @@
                 </tbody>
             </table>
 
+
+            <br/><br/>
+
+            <h3>
+                Search results
+            </h3>
 
             <h:dataTable id="search-table" value="#{bookManagedBean.searchList}" var="book" border="2"
                          cellspacing="1" cellpadding="1">
@@ -68,6 +78,10 @@
                 <h:column>
                     <c:facet name="header">Quantity</c:facet>
                         #{book.quantity}
+                </h:column>
+                <h:column>
+                    <c:facet name="header">Active</c:facet>
+                        #{book.active}
                 </h:column>
 
             </h:dataTable>

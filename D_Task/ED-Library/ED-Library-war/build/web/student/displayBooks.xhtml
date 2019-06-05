@@ -11,7 +11,7 @@
         <h:form>
 
             <h2>
-                Swinburne Book Management
+                Welcome to Swinburne library 
             </h2>
 
             <h3>
@@ -40,8 +40,8 @@
                             </h:selectOneMenu>
                         </td>
                         <td>
-                            <h:commandButton id="submit" value="Submit" 
-                                             action="#{bookManagedBean.searchBooksAdmin}">
+                            <h:commandButton id="search" value="Search" 
+                                             action="#{bookManagedBean.searchBooksNormal}">
                                 <f:ajax listener="#{bookManagedBean.listener}" execute="@form" render="search-table" />
                             </h:commandButton>
                         </td>
@@ -79,14 +79,34 @@
                     <c:facet name="header">Quantity</c:facet>
                         #{book.quantity}
                 </h:column>
-                <h:column>
-                    <c:facet name="header">Active</c:facet>
-                        #{book.active}
-                </h:column>
 
-            </h:dataTable>
-
+            </h:dataTable>         
         </h:form>
+        
+        
+        <h:form>
+            <table>
+                <tr>
+                    <td>
+                        <h:inputText title="Book Id" id="bookId"
+                                     required="true" 
+                                     requiredMessage="Book id must not be blank"
+                                     maxlength="6" 
+                                     value="#{bookManagedBean.bookId}">
+                        </h:inputText>
+                    </td>
+                    <td>
+                        <h:message for="bookId" style="color:red"/>
+                    </td>
+                    <td>
+                        <h:commandButton id="submit" value="Submit" 
+                                         action="#{bookManagedBean.borowBook()}">
+                        </h:commandButton>
+                    </td>
+                </tr>
+            </table>
+        </h:form>
+        
     </h:body>
 </html>
 

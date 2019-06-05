@@ -10,12 +10,8 @@
     <h:body>
         <h:form>
 
-            <h2>
-                Swinburne Book Management
-            </h2>
-
             <h3>
-                Enter name of the book that you want to search
+                Swinburne book
             </h3>
 
             <table>
@@ -41,7 +37,7 @@
                         </td>
                         <td>
                             <h:commandButton id="submit" value="Submit" 
-                                             action="#{bookManagedBean.searchBooksAdmin}">
+                             action="#{bookManagedBean.searchBooks}">
                                 <f:ajax listener="#{bookManagedBean.listener}" execute="@form" render="search-table" />
                             </h:commandButton>
                         </td>
@@ -50,12 +46,12 @@
                 </tbody>
             </table>
 
-
-            <br/><br/>
-
-            <h3>
-                Search results
-            </h3>
+            
+        <br/><br/>
+        
+        <h3>
+            Search results
+        </h3>
 
             <h:dataTable id="search-table" value="#{bookManagedBean.searchList}" var="book" border="2"
                          cellspacing="1" cellpadding="1">
@@ -78,10 +74,6 @@
                 <h:column>
                     <c:facet name="header">Quantity</c:facet>
                         #{book.quantity}
-                </h:column>
-                <h:column>
-                    <c:facet name="header">Active</c:facet>
-                        #{book.active}
                 </h:column>
 
             </h:dataTable>

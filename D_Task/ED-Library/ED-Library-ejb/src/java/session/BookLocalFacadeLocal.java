@@ -6,6 +6,8 @@
 package session;
 
 import entity.LbBook;
+import entity.LbBorrowedBook;
+import entity.LbUser;
 import java.util.ArrayList;
 import javax.ejb.Local;
 
@@ -19,6 +21,7 @@ public interface BookLocalFacadeLocal {
     boolean removeBook(String id);
     ArrayList<LbBook> getAllBooks();
     ArrayList<LbBook> getBooks(String name, String type);
-    boolean reserveBook(String id);
+    ArrayList<LbBook> getActiveBooks(String name, String type);
+    boolean reserveBook(LbBorrowedBook borrowBook);
     LbBook find(String id);
 }

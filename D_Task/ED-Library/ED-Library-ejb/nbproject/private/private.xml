@@ -4,9 +4,10 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/Users/mc976/NetBeansProjects/D_Task/ED-Library/ED-Library-ejb/src/java/session/BookLocalFacade.java</file>
-            <file>file:/Users/mc976/NetBeansProjects/D_Task/ED-Library/ED-Library-ejb/src/java/entity/LbBook.java</file>
-            <file>file:/Users/mc976/NetBeansProjects/D_Task/ED-Library/ED-Library-ejb/src/java/session/BookLocalFacadeLocal.java</file>
+            <file>file:/Users/mc976/NetBeansProjects/D_Task/ED-Library/ED-Library-ejb/src/java/entity/LbBorrowedBook.java</file>
+            <file>file:/Users/mc976/NetBeansProjects/D_Task/ED-Library/ED-Library-ejb/src/java/session/UserLocalFacade.java</file>
             <file>file:/Users/mc976/NetBeansProjects/D_Task/ED-Library/ED-Library-ejb/src/java/session/BookManagementFacade.java</file>
+            <file>file:/Users/mc976/NetBeansProjects/D_Task/ED-Library/ED-Library-ejb/src/java/session/UserLocalFacadeLocal.java</file>
         </group>
     </open-files>
 </project-private>

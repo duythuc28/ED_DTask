@@ -6,8 +6,11 @@
 package session;
 
 import entity.LbBook;
+import entity.LbBorrowedBook;
+import entity.LbUser;
 import entity.LibBookDTO;
 import java.util.ArrayList;
+import java.util.Date;
 import javax.annotation.security.DeclareRoles;
 import javax.annotation.security.RolesAllowed;
 import javax.ejb.EJB;
@@ -23,6 +26,9 @@ public class BookManagementFacade implements BookManagementFacadeRemote {
 
     @EJB
     private BookLocalFacadeLocal localFacade;
+    
+    @EJB
+    private UserLocalFacadeLocal userLocalFacade;
     
     private LibBookDTO convertToDTO(LbBook book) {
         if (book == null) { return null; }
@@ -78,7 +84,7 @@ public class BookManagementFacade implements BookManagementFacadeRemote {
     
     
 
-    @RolesAllowed({"ADMIN", "LIBRARIAN", "STUDENT"})
+    @RolesAllowed({"ADMIN"})
     @Override
     public ArrayList<LibBookDTO> getBooks(String name, String category) {
         ArrayList<LbBook> books = localFacade.getBooks(name, category);
@@ -89,11 +95,47 @@ public class BookManagementFacade implements BookManagementFacadeRemote {
         }
         return newBookList;
     }
+    
+    @RolesAllowed({"ADMIN", "LIBRARIAN", "STUDENT"})
+    @Override
+    public ArrayList<LibBookDTO> getActiveBooks(String name, String category) {
+        ArrayList<LbBook> books = localFacade.getActiveBooks(name, category);
+        ArrayList<LibBookDTO> newBookList = new ArrayList<>();
+        for (LbBook book: books) {
+            LibBookDTO dto = this.convertToDTO(book);
+            newBookList.add(dto);
+        }
+        return newBookList;
+    }
+    
 
     @RolesAllowed({"ADMIN", "LIBRARIAN", "STUDENT"})
     @Override
-    public boolean reserveBook(String bookID, String userID) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public boolean reserveBook(String bookID, String email) {
+        LbBook book = localFacade.find(bookID);
+        LbUser user = userLocalFacade.findByEmail(email);
+        
+        System.err.println("book ID " + bookID) ;
+        
+        if (book == null || user == null) return false;
+        
+        int quantity = book.getQuantity();
+        if (quantity <= 0 || !book.getActive()) { 
+            return false;
+        }
+        
+        // Save record to borrow table
+        LbBorrowedBook borrowBook = new LbBorrowedBook();
+        borrowBook.setUserId(user);
+        borrowBook.setBookId(book);
+        borrowBook.setIsReturn(false);
+        borrowBook.setReturnedDate(null);
+        borrowBook.setBorrowedDate(new Date());
+        localFacade.reserveBook(borrowBook);
+        // Update quantity of the borrowed book 
+        book.setQuantity(quantity-1);
+        
+        return true;
     }
     
 }

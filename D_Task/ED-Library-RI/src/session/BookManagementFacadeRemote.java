@@ -23,7 +23,8 @@ public interface BookManagementFacadeRemote {
     
     ArrayList<LibBookDTO> getAllBooks();
     
-    boolean reserveBook(String bookID, String userID);
+    ArrayList<LibBookDTO> getActiveBooks(String name, String category);
     
-    
+    boolean reserveBook(String bookID, String email);
+   
 }
