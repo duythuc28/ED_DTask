@@ -1,0 +1,130 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Add Book</title>
+    </h:head>
+    <h:body>
+
+        <h2>Please enter the details of a book </h2>
+
+        <h:form>
+
+            <table>
+                <tbody>
+                    <tr>
+                        <td>
+                            <h:outputLabel value="Book Id:"/>
+                        </td>
+                        <td>
+                            <h:inputText title="bookId" id="bookId"
+                                         required="true" 
+                                         requiredMessage="Book id must not be blank"
+                                         maxlength="6" 
+                                         value="#{bookManagedBean.bookId}">
+                                <f:validateLength minimum="4" maximum="6"/>
+                            </h:inputText>
+                        </td>
+                        <td>
+                            <h:message for="bookId" style="color:red"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <h:outputLabel value="Name:"/>
+                        </td>
+                        <td>
+                            <h:inputText title="Name" id="name"
+                                         maxlength="50"
+                                         required="true" 
+                                         requiredMessage="Name must not be blank"
+                                         value="#{bookManagedBean.name}"/>
+                        </td>
+                        <td>
+                            <h:message for="name" style="color:red"/>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>
+                            <h:outputLabel value="Author:"/>
+                        </td>
+                        <td>
+                            <h:inputText title="Author" id="author"
+                                         maxlength="30" 
+                                         required="true"
+                                         requiredMessage="Author must not be blank"
+                                         value="#{bookManagedBean.author}"/>
+                        </td>
+                        <td>
+                            <h:message for="author" style="color:red"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <h:outputLabel value="Description"/>
+                        </td>
+                        <td>
+                            <h:inputText title="Description" maxlength="100"
+                                         required="false"
+                                         value="#{bookManagedBean.description}"/>     
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <h:outputLabel value="Quantity:"/>
+                        </td>
+                        <td>
+                            <h:inputText title="Quantity:"
+                                         id="quantiy"
+                                         required="true"
+                                         requiredMessage="Quantity cannot be blank"
+                                         validatorMessage="Quantity is invalid!"
+                                         value="#{bookManagedBean.quantity}">
+                                <f:validateLongRange minimum="0" maximum="100" />
+                            </h:inputText>
+                        </td>
+                        <td>
+                            <h:message for="quantiy" style="color:red"/>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>
+                            <h:outputLabel value="Category:"/>
+                        </td>
+                        <td>
+                            <h:selectOneMenu id="category"
+                                             required="true"
+                                             value="#{bookManagedBean.category}">
+                                <f:selectItem itemValue="Fiction" itemLabel="Fiction"></f:selectItem>                                
+                                <f:selectItem itemValue="Programming" itemLabel="Programming"></f:selectItem>
+                                <f:selectItem itemValue="Horror" itemLabel="Horror"></f:selectItem>
+                                <f:selectItem itemValue="Novel" itemLabel="Novel"></f:selectItem>
+                                <f:selectItem itemValue="Romantic" itemLabel="Romantic"></f:selectItem>
+                            </h:selectOneMenu>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <h:outputLabel value="Active:" for="active"/> 
+                        </td>
+                        <td>
+                            <h:selectBooleanCheckbox id="active" required="false" 
+                                                     value="#{bookManagedBean.active}" />
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <p></p>
+
+            <h:commandButton id="submit" value="Submit" 
+                             action="#{bookManagedBean.addBook()}"/>
+
+        </h:form>
+    </h:body>
+</html>
+

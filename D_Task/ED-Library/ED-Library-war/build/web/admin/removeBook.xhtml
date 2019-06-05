@@ -1,0 +1,79 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:c="http://java.sun.com/jsf/core">
+    <h:head>
+        <title>Remove book</title>
+    </h:head>
+    <h:body>
+        <h:form>
+
+            <h2>
+                Remove book
+            </h2>
+            
+            <table>
+                <tbody>
+                    <tr>
+                        <td>
+                            <h:outputLabel value="Book Id:"/>
+                        </td>
+                        <td>
+                            <h:inputText title="bookId" id="bookId"
+                                         required="true" 
+                                         requiredMessage="Book id must not be blank"
+                                         maxlength="6" 
+                                         value="#{bookManagedBean.bookId}">
+                                <f:validateLength minimum="4" maximum="6"/>
+                            </h:inputText>
+                        </td>
+                        <td>
+                            <h:message for="bookId" style="color:red"/>
+                        </td>
+                    </tr>
+
+                </tbody>
+            </table>
+            <h:commandButton id="submit" value="Submit" 
+                             action="#{bookManagedBean.removeBook()}"/>
+            
+            <br></br>
+            
+            <h3>
+                Available book list
+            </h3>
+
+
+            <h:dataTable value="#{bookManagedBean.getBookList()}" var="book" border="2"
+                         cellspacing="1" cellpadding="1">
+                <h:column>
+                    <c:facet name="header">Book ID</c:facet>
+                        #{book.bookId}
+                </h:column>
+                <h:column>
+                    <c:facet name="header">Name</c:facet>
+                        #{book.name}
+                </h:column>
+                <h:column>
+                    <c:facet name="header">Author</c:facet>
+                        #{book.author}
+                </h:column>
+                <h:column>
+                    <c:facet name="header">Category</c:facet>
+                        #{book.category}
+                </h:column>
+                <h:column>
+                    <c:facet name="header">Quantity</c:facet>
+                        #{book.quantity}
+                </h:column>
+                
+            </h:dataTable>
+
+        </h:form>
+    </h:body>
+
+
+</html>
+
